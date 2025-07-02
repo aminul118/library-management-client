@@ -1,12 +1,26 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Loader from "@/components/ui/Loader";
-import { useGetAllBooksQuery } from "@/redux/api/bookApi";
+import {
+  useDeleteBookMutation,
+  useGetAllBooksQuery,
+} from "@/redux/api/bookApi";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { FaCircleXmark } from "react-icons/fa6";
-import { AiTwotoneEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
-import { FcCollect } from "react-icons/fc";
 import { Button } from "@/components/ui/button";
-
+import EditBooks from "@/components/AllBooks/EditBooks";
+import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { DialogClose } from "@radix-ui/react-dialog";
+import { ShowBooks } from "@/components/AllBooks/BookDetails";
 interface ApiResponse<T> {
   data: T;
 }
@@ -27,6 +41,8 @@ const AllBooks = () => {
     isError: boolean;
   };
 
+  const [deleteBook] = useDeleteBookMutation();
+  console.log(data);
   if (isLoading) return <Loader />;
   if (isError) return <div className="text-red-500">Failed to load books.</div>;
 
@@ -77,15 +93,45 @@ const AllBooks = () => {
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
                   <div className="flex items-center gap-2">
-                    <Button size="icon" className="bg-green-800 text-white">
-                      <AiTwotoneEdit />
-                    </Button>
-                    <Button size="icon" variant="destructive">
-                      <MdDelete />
-                    </Button>
-                    <Button size="icon" className="bg-gray-100">
-                      <FcCollect />
-                    </Button>
+                    <EditBooks bookId={book._id} />
+                    <Dialog>
+                      <DialogTrigger>
+                        <Button variant="destructive">
+                          <MdDelete />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Are you absolutely sure?</DialogTitle>
+                          <DialogDescription>
+                            This action cannot be undone. This will permanently
+                            delete this book from the system.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter>
+                          <DialogClose asChild>
+                            <Button variant="outline">Cancel</Button>
+                          </DialogClose>
+                          <DialogClose asChild>
+                            <Button
+                              variant="destructive"
+                              onClick={async () => {
+                                try {
+                                  await deleteBook(book._id).unwrap();
+                                  toast.success("Book deleted successfully");
+                                } catch (err) {
+                                  toast.error("Failed to delete book");
+                                }
+                              }}
+                            >
+                              Confirm Delete
+                            </Button>
+                          </DialogClose>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+
+                    <ShowBooks bookId={book._id} />
                   </div>
                 </td>
               </tr>
