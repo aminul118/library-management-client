@@ -96,7 +96,11 @@ const AllBooks = () => {
                     <EditBooks bookId={book._id} />
                     <Dialog>
                       <DialogTrigger>
-                        <Button variant="destructive">
+                        <Button
+                          data-tooltip-id="my-tooltip"
+                          data-tooltip-content="Delete Book"
+                          variant="destructive"
+                        >
                           <MdDelete />
                         </Button>
                       </DialogTrigger>

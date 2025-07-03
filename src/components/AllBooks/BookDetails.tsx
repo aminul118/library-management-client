@@ -13,6 +13,7 @@ import { useGetSingleBookQuery } from "@/redux/api/bookApi";
 import Loader from "@/components/ui/Loader";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { BorrowBook } from "./BorrowBook";
+import { TbListDetails } from "react-icons/tb";
 
 export function ShowBooks({ bookId }: { bookId: string }) {
   const { data, isLoading, isError } = useGetSingleBookQuery(bookId);
@@ -21,7 +22,13 @@ export function ShowBooks({ bookId }: { bookId: string }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">View</Button>
+        <Button
+          data-tooltip-id="my-tooltip"
+          data-tooltip-content="Details"
+          variant="outline"
+        >
+          <TbListDetails />
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>

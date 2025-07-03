@@ -95,7 +95,11 @@ const EditBooks = ({ bookId }: { bookId: string }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="outline">
+        <Button
+          variant="outline"
+          data-tooltip-id="my-tooltip"
+          data-tooltip-content="Edit Book"
+        >
           <AiTwotoneEdit />
         </Button>
       </AlertDialogTrigger>
