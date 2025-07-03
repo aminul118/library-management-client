@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
-
 import Loader from "@/components/ui/Loader";
 import { useGetBorrowQuery } from "@/redux/api/bookApi";
 

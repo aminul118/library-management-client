@@ -19,7 +19,7 @@ export function BorrowBook({ bookId }: { bookId: string }) {
   const [createBorrow] = useCreateBorrowMutation();
   const [quantity, setQuantity] = useState(1);
   const [dueDate, setDueDate] = useState("");
-  const [open, setOpen] = useState(false); // 👈 controls dialog visibility
+  const [open, setOpen] = useState(false); 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
