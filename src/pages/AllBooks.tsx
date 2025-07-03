@@ -42,7 +42,7 @@ const AllBooks = () => {
   };
 
   const [deleteBook] = useDeleteBookMutation();
-  console.log(data);
+
   if (isLoading) return <Loader />;
   if (isError) return <div className="text-red-500">Failed to load books.</div>;
 
