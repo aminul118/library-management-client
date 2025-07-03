@@ -51,7 +51,7 @@ export const bookApi = createApi({
         method: "POST",
         body,
       }),
-      invalidatesTags: ["borrow"],
+      invalidatesTags: ["books"],
     }),
   }),
 });

@@ -21,12 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { useEffect } from "react";
-import {
-  useGetSingleBookQuery,
-  useUpdateBookMutation,
-} from "@/redux/api/bookApi";
-import Loader from "@/components/ui/Loader";
+import { useCreateBookMutation } from "@/redux/api/bookApi";
 
 type Genre =
   | "FICTION"
@@ -47,10 +42,8 @@ interface IFormInput {
   available: boolean;
 }
 
-const EditBook = ({ bookId }: { bookId: string }) => {
-  const { data, isLoading } = useGetSingleBookQuery(bookId);
-  const [updateBook] = useUpdateBookMutation();
-  const book = data?.data;
+const AddBook = () => {
+  const [createBook] = useCreateBookMutation();
 
   const form = useForm<IFormInput>({
     defaultValues: {
@@ -64,35 +57,29 @@ const EditBook = ({ bookId }: { bookId: string }) => {
     },
   });
 
-  useEffect(() => {
-    if (book) {
-      form.reset({
-        title: book.title,
-        author: book.author,
-        genre: book.genre,
-        isbn: book.isbn,
-        description: book.description,
-        copies: book.copies,
-        available: book.available,
-      });
-    }
-  }, [book, form]);
-
   const onSubmit = async (formData: IFormInput) => {
     try {
-      await updateBook({ bookId: book._id, ...formData }).unwrap();
-      toast.success("Book updated successfully!");
+      const res = await createBook(formData).unwrap();
+      console.log("Book created:", res);
+      toast.success("Book added successfully!");
+      form.reset({
+        title: "",
+        author: "",
+        genre: "FICTION",
+        isbn: "",
+        description: "",
+        copies: 1,
+        available: true,
+      });
     } catch (error) {
-      toast.error("Failed to update book");
+      toast.error("Failed to add book");
       console.error(error);
     }
   };
 
-  if (isLoading) return <Loader />;
-
   return (
     <div className="max-w-2xl mx-auto p-6">
-      <h1 className="text-2xl font-semibold mb-6">Edit Book</h1>
+      <h1 className="text-2xl font-semibold mb-6">Add New Book</h1>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -135,7 +122,7 @@ const EditBook = ({ bookId }: { bookId: string }) => {
                 <FormLabel>Genre</FormLabel>
                 <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select genre" />
                     </SelectTrigger>
                   </FormControl>
@@ -217,8 +204,9 @@ const EditBook = ({ bookId }: { bookId: string }) => {
             )}
           />
 
+          {/* Submit */}
           <Button type="submit" className="w-full">
-            Update Book
+            Add Book
           </Button>
         </form>
       </Form>
@@ -226,4 +214,4 @@ const EditBook = ({ bookId }: { bookId: string }) => {
   );
 };
 
-export default EditBook;
+export default AddBook;
