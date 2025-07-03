@@ -23,7 +23,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { useCreateBookMutation } from "@/redux/api/bookApi";
 
-type Genre =
+export type Genre =
   | "FICTION"
   | "NON_FICTION"
   | "SCIENCE"
@@ -133,7 +133,6 @@ const AddBook = () => {
                     <SelectItem value="HISTORY">History</SelectItem>
                     <SelectItem value="BIOGRAPHY">Biography</SelectItem>
                     <SelectItem value="FANTASY">Fantasy</SelectItem>
-                    <SelectItem value="OTHER">Other</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
