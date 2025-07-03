@@ -20,7 +20,7 @@ const Navbar = () => {
       <header className="bg-slate-800 text-white py-4">
         <nav className="flex justify-between container mx-auto items-center">
           <Link to="" className="text-2xl font-bold">
-            Library
+            <span className="text-red-500">Digital</span> Library
           </Link>
           <ul className="flex gap-4 items-center">
             {navmenu.map((menu) => (

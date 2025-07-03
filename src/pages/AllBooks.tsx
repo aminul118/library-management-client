@@ -47,7 +47,7 @@ const AllBooks = () => {
   if (isError) return <div className="text-red-500">Failed to load books.</div>;
 
   return (
-    <div className="p-4">
+    <div className="p-4 container mx-auto">
       <h1 className="text-2xl font-bold mb-4">All Books</h1>
       <div className="overflow-x-auto">
         <table className="table-auto w-full border-collapse border border-gray-300">
